@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:mf="http://java.sun.com/jsf/composite/mdrfaces">
+<f:view locale="de">
+    <h:head>
+        <link type="text/css" rel="stylesheet" href="styles.css" />
+    </h:head>
+    <h:body class="container">
+
+        <h1 class="page-header">A Form example</h1>
+        <p>An example description for this form.</p>
+
+        <h:form styleClass="col-md-5">
+
+            <h2>Drop down box</h2>
+            <mf:formMdrField mdrId="urn:mdr10:dataelement:7:1" styleClass="col-xs-2" required="true"
+                requiredMessage="fill that in!" />
+            <mf:mdrInput mdrId="urn:mdr10:dataelement:7:1" value="1" />
+            <br />
+
+            <h2>Text input</h2>
+            <mf:formMdrField mdrId="urn:mdr10:dataelement:5:1">
+                <f:validator validatorId="emailValidator" for="input" />
+            </mf:formMdrField>
+            <br />
+            <mf:mdrInput mdrId="urn:mdr10:dataelement:5:1">
+                <f:validator validatorId="emailValidator" for="input" />
+            </mf:mdrInput>
+            <br />
+
+            <h2>Number</h2>
+            <mf:formMdrField mdrId="urn:mdr10:dataelement:6:1">
+                <f:validator validatorId="numberValidator" for="input" />
+            </mf:formMdrField>
+            <br />
+            <h2>Date</h2>
+            <mf:formMdrField mdrId="urn:mdr10:dataelement:1:1" />
+            <br />
+            <h2>DateTime</h2>
+            <mf:formMdrField mdrId="urn:mdr10:dataelement:8:1" value="07.01.2015 12:04" />
+            <mf:mdrInput mdrId="urn:mdr10:dataelement:8:1" />
+            <br />
+            <h2>Time</h2>
+            <mf:formMdrField mdrId="urn:mdr10:dataelement:9:1" value="11:30" />
+            <mf:mdrInput mdrId="urn:mdr10:dataelement:9:1" value="10:30" />
+            <br />
+            <!-- 
+            <h2>Record</h2>
+            <mf:formMdrField mdrId="urn:mdr10:record:1:1" />
+             -->
+            <br />
+            <h2>Boolean</h2>
+            <mf:formMdrField mdrId="urn:mdr10:dataelement:2:1" value="true" />
+            <mf:mdrInput mdrId="urn:mdr10:dataelement:2:1" value="fds" />
+            <br />
+            
+            <br />
+            <h:commandButton value="Search" styleClass="btn btn-primary" />
+            <br />
+            <br />
+            <br />
+        </h:form>
+
+    </h:body>
+</f:view>
+</html>

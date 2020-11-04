@@ -1,0 +1,32 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+                xmlns:mf="http://xmlns.jcp.org/jsf/composite/mdrfaces">
+
+    <cc:interface name="fieldwithLabel">
+        <cc:attribute name="mdrId" required="true"/>
+        <cc:attribute name="value" required="false"/>
+        <cc:attribute name="styleClass" required="false" default="mdrfaces-input"/>
+        <cc:attribute name="size" required="false"/>
+        <cc:attribute name="converter" required="false"/>
+        <cc:attribute name="converterMessage" required="false"/>
+        <cc:attribute name="required" required="false"/>
+        <cc:attribute name="requiredMessage" required="false"/>
+        <cc:attribute name="errorMessageStyleClass" required="false" default="errorText"/>
+        <cc:attribute name="inputId" required="false"/>
+        <cc:attribute name="inputType" required="false" displayName="inputType"
+                      default="#{MdrDataElementBean.getInputType(cc.attrs.mdrId)}"/>
+    </cc:interface>
+
+    <cc:implementation>
+
+        <mf:formMdrField mdrId="#{cc.attrs.mdrId}" includeInput="true" includeLabel="false" value="#{cc.attrs.value}"
+                         inputStyleClass="#{cc.attrs.styleClass}"
+                         size="#{cc.attrs.size}" converter="#{cc.attrs.converter}"
+                         converterMessage="#{cc.attrs.converterMessage}"
+                         required="#{cc.attrs.required}" requiredMessage="#{cc.attrs.requiredMessage}"
+                         errorMessageStyleClass="#{cc.attrs.errorMessageStyleClass}"
+                         inputId="#{cc.attrs.inputId}" inputType="#{cc.attrs.inputType}"/>
+
+    </cc:implementation>
+</ui:composition>

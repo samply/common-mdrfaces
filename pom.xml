@@ -1,0 +1,219 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>de.samply</groupId>
+        <artifactId>parent</artifactId>
+        <version>11.1.0</version>
+    </parent>
+
+    <artifactId>mdrfaces</artifactId>
+    <version>4.0.0</version>
+
+    <name>Samply Common MDRFaces</name>
+    <description>Samply.Common.MDRFaces is a Java Server Faces library which eases the user
+        interface design of web applications where the respective data model relies on
+        well defined data elements. Especially in case of systems for electronic data
+        capturing, where the necessary data model is not known beforehand and can even
+        vary over time, the user interface has to be easily adjustable. This often means
+        the user instead of the developer designs the various forms for data entry and
+        therefore an easy to use mechanism has to be provided. By using Samply.MDRFaces
+        the developer can focus on the implementation of that mechanism, e.g. some
+        editor component, but does not have to cope with the visualization of every
+        single data element as for that is taken care of automatically.</description>
+    <url>https://github.com/samply/common-mdrfaces</url>
+    <organization>
+        <name>Samply Community</name>
+    </organization>
+    <licenses>
+        <license>
+            <name>The Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Deniz Tas</name>
+            <email>d.tas@dkfz-heidelberg.de</email>
+            <organization>German Cancer Research Center</organization>
+            <organizationUrl>https://www.dkfz.de/en/</organizationUrl>
+        </developer>
+    </developers>
+
+    <scm>
+        <connection>scm:git:https://github.com/samply/common-mdrfaces.git</connection>
+        <developerConnection>scm:git:https://github.com/samply/common-mdrfaces.git</developerConnection>
+        <url>https://github.com/samply/mdrfaces-http</url>
+    </scm>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>ossrh</id>
+            <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
+
+    <properties>
+        <mdrclient.version>3.0.0</mdrclient.version>
+        <samply.version.webjar>3.0.0</samply.version.webjar>
+
+        <skipTests>false</skipTests>
+        <!-- Jersey 2.x is incompatible with 1.19.4 -->
+        <jersey.version>1.19.4</jersey.version>
+        <slf4j-api.version>1.7.22</slf4j-api.version>
+        <oro.version>2.0.8</oro.version>
+
+        <!-- Webjar dependencies -->
+        <bootstrap-switch.version>3.3.2</bootstrap-switch.version>
+        <clockpicker.version>0.0.7</clockpicker.version>
+        <bootstrap.version>3.3.7-1</bootstrap.version>
+        <Eonasdan-bootstrap-datetimepicker.version>4.17.47</Eonasdan-bootstrap-datetimepicker.version>
+        <select2.version>4.0.5</select2.version>
+        <font-awesome.version>4.7.0</font-awesome.version>
+        <javax.servlet-api.version>3.1.0</javax.servlet-api.version>
+        <javax.el-api.version>3.0.0</javax.el-api.version>
+        <commons-validator.version>1.6</commons-validator.version>
+        <gson.version>2.8.2</gson.version>
+        <guava.version>24.0-jre</guava.version>
+        <junit.version>4.12</junit.version>
+        <jsf-api.version>2.2.17</jsf-api.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.sun.faces</groupId>
+            <artifactId>jsf-api</artifactId>
+            <scope>compile</scope>
+            <version>${jsf-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <scope>provided</scope>
+            <version>${javax.servlet-api.version}</version>
+        </dependency>
+        <!-- For Servlet Container like Tomcat -->
+
+        <dependency>
+            <groupId>javax.el</groupId>
+            <artifactId>javax.el-api</artifactId>
+            <version>${javax.el-api.version}</version>
+        </dependency>
+
+        <!-- Commons Validator -->
+        <dependency>
+            <groupId>commons-validator</groupId>
+            <artifactId>commons-validator</artifactId>
+            <version>${commons-validator.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>oro</groupId>
+            <artifactId>oro</artifactId>
+            <version>${oro.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>${gson.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
+        </dependency>
+
+        <!-- Using old JUnit 4 TODO: rewrite tests to JUnit 5 and remove this dependency-->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-client</artifactId>
+            <version>${jersey.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-core</artifactId>
+            <version>${jersey.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j-api.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.samply</groupId>
+            <artifactId>common-samply</artifactId>
+            <version>${samply.version.webjar}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>de.samply</groupId>
+            <artifactId>mdrclient</artifactId>
+            <version>${mdrclient.version}</version>
+        </dependency>
+
+        <!-- Webjar dependencies -->
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>bootstrap-switch</artifactId>
+            <version>${bootstrap-switch.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>bootstrap</artifactId>
+            <version>${bootstrap.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>Eonasdan-bootstrap-datetimepicker</artifactId>
+            <version>${Eonasdan-bootstrap-datetimepicker.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.webjars.bower</groupId>
+            <artifactId>clockpicker</artifactId>
+            <version>${clockpicker.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>select2</artifactId>
+            <version>${select2.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.webjars</groupId>
+            <artifactId>font-awesome</artifactId>
+            <version>${font-awesome.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/webapp/resources</directory>
+                <targetPath>META-INF/resources</targetPath>
+            </resource>
+            <resource>
+                <directory>src/main/webapp/WEB-INF/</directory>
+                <targetPath>META-INF</targetPath>
+            </resource>
+        </resources>
+    </build>
+
+</project>

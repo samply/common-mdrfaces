@@ -1,0 +1,16 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:cc="http://xmlns.jcp.org/jsf/composite"
+                xmlns:mf="http://xmlns.jcp.org/jsf/composite/mdrfaces">
+
+    <cc:interface name="fieldwithLabel">
+        <cc:attribute name="mdrId" required="true"/>
+        <cc:attribute name="styleClass" required="false" default="mdrfaces-label"/>
+    </cc:interface>
+
+    <cc:implementation>
+        <mf:formMdrField mdrId="#{cc.attrs.mdrId}" includeLabel="true" includeInput="false"
+                         labelStyleClass="#{cc.attrs.styleClass}"/>
+    </cc:implementation>
+
+</ui:composition>

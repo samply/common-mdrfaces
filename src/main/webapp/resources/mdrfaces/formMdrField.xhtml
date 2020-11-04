@@ -1,0 +1,240 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:cc="http://xmlns.jcp.org/jsf/composite">
+
+    <cc:interface name="fieldwithLabel">
+        <cc:attribute name="includeLabel" type="java.lang.Boolean" required="false" default="true"/>
+        <cc:attribute name="includeInput" type="java.lang.Boolean" required="false" default="true"/>
+        <cc:attribute name="mdrId" required="true" displayName="mdrId"/>
+        <cc:attribute name="value" required="false" displayName="value"/>
+        <cc:attribute name="size" required="false" displayName="size"/>
+        <cc:attribute name="labelStyleClass" required="false" displayName="labelStyleClass" default="mdrfaces-label"/>
+        <cc:attribute name="inputStyleClass" required="false" displayName="inputStyleClass" default="mdrfaces-input"/>
+        <cc:attribute name="converter" required="false" displayName="converter"/>
+        <cc:attribute name="converterMessage" required="false" displayName="converterMessage"/>
+        <cc:attribute name="required" required="false" displayName="required"/>
+        <cc:attribute name="requiredMessage" required="false" displayName="requiredMessage"/>
+        <cc:attribute name="errorMessageStyleClass" required="false" default="errorText"/>
+        <cc:attribute name="labelId" required="false" default="outputLabel"/>
+        <cc:attribute name="inputId" required="false"/>
+        <cc:attribute name="inputType" required="false" displayName="inputType"
+                      default="#{MdrDataElementBean.getInputType(cc.attrs.mdrId)}"/>
+    </cc:interface>
+
+    <cc:implementation>
+
+        <h:outputStylesheet name="webjars/bootstrap/3.3.7-1/css/bootstrap.min.css"/>
+        <h:outputStylesheet name="webjars/bootstrap-switch/3.3.2/css/bootstrap3/bootstrap-switch.min.css"
+                            target="head"/>
+        <h:outputStylesheet name="webjars/clockpicker/0.0.7/dist/bootstrap-clockpicker.min.css" target="head"/>
+        <h:outputStylesheet
+                name="webjars/Eonasdan-bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" target="head"/>
+        <h:outputStylesheet name="webjars/select2/4.0.5/css/select2.min.css" target="head"/>
+        <h:outputStylesheet name="webjars/font-awesome/4.7.0/css/font-awesome.css"/>
+        <h:outputStylesheet name="css/mdrStyles.css" target="head"/>
+
+        <ui:param name="renderedInputId"
+                  value="#{MdrDataElementBean.getRenderedInputId(cc.attrs.mdrId, cc.attrs.inputId)}"/>
+
+        <ui:param name="elementFound" value="#{MdrDataElementBean.isElementKnown(cc.attrs.mdrId)}" />
+
+        <!--In case the element is not found, there is no need to try to get labels or tooltips...so just display a fallback-->
+        <ui:fragment rendered="#{not elementFound}">
+            <ui:fragment rendered="#{cc.attrs.includeLabel}">
+                <h:outputLabel value="#{cc.attrs.mdrId}" id="#{cc.attrs.labelId}-fallback"
+                               styleClass="dataElementField hasTooltip #{cc.attrs.labelStyleClass}"
+                               title="not found"
+                               for="#{renderedInputId}">
+                </h:outputLabel>
+            </ui:fragment>
+            <ui:fragment rendered="#{cc.attrs.includeInput}">
+                <h:inputText id="#{MdrDataElementBean.getInputTextId(cc.attrs.mdrId, cc.attrs.inputId)}-fallback"
+                             value="#{cc.attrs.value}"
+                             size="#{cc.attrs.size}"
+                             styleClass="form-control hasTooltip #{cc.attrs.inputStyleClass}" data-toggle="tooltip"
+                             data-placement="bottom"
+                             title="not found" converter="#{cc.attrs.converter}"
+                             converterMessage="#{cc.attrs.converterMessage}" required="#{cc.attrs.required}"
+                             requiredMessage="#{cc.attrs.requiredMessage}">
+                    <f:attribute name="mdrId" value="#{cc.attrs.mdrId}"/>
+                    <f:passThroughAttribute name="data-mdrId" value="#{cc.attrs.mdrId}" />
+                </h:inputText>
+            </ui:fragment>
+        </ui:fragment>
+
+        <ui:fragment rendered="#{elementFound}">
+            <!-- label -->
+
+            <ui:fragment rendered="#{cc.attrs.includeLabel}">
+                <h:outputLabel value="#{MdrDataElementBean.getLabelText(cc.attrs.mdrId)}" id="#{cc.attrs.labelId}"
+                               styleClass="dataElementField hasTooltip #{cc.attrs.labelStyleClass}"
+                               title="#{MdrDataElementBean.labelTooltipText}"
+                               for="#{renderedInputId}">
+                </h:outputLabel>
+            </ui:fragment>
+
+            <!-- input options -->
+            <ui:fragment rendered="#{cc.attrs.includeInput}">
+
+                <h:inputText id="#{MdrDataElementBean.getInputTextId(cc.attrs.mdrId, cc.attrs.inputId)}"
+                             value="#{cc.attrs.value}"
+                             rendered="#{MdrDataElementBean.isInputTextRendered(cc.attrs.mdrId)}" size="#{cc.attrs.size}"
+                             styleClass="form-control hasTooltip #{cc.attrs.inputStyleClass}" data-toggle="tooltip"
+                             data-placement="bottom"
+                             title="#{MdrDataElementBean.getInputTooltipText()}" converter="#{cc.attrs.converter}"
+                             converterMessage="#{cc.attrs.converterMessage}" required="#{cc.attrs.required}"
+                             requiredMessage="#{cc.attrs.requiredMessage}">
+                    <f:validator validatorId="IntegerValidator"
+                                 disabled="#{ValidationBean.disableIntegerValidation(cc.attrs.mdrId)}"/>
+                    <f:validator validatorId="FloatValidator"
+                                 disabled="#{ValidationBean.disableFloatValidation(cc.attrs.mdrId)}"/>
+                    <f:validator validatorId="IntegerRangeValidator"
+                                 disabled="#{ValidationBean.disableIntegerValidation(cc.attrs.mdrId)}"/>
+                    <f:validator validatorId="FloatRangeValidator"
+                                 disabled="#{ValidationBean.disableFloatValidation(cc.attrs.mdrId)}"/>
+                    <f:validator validatorId="MdrRegexValidator"
+                                 disabled="#{ValidationBean.disableRegexValidation(cc.attrs.mdrId)}"/>
+                    <f:attribute name="mdrId" value="#{cc.attrs.mdrId}"/>
+                    <f:passThroughAttribute name="data-mdrId" value="#{cc.attrs.mdrId}" />
+                </h:inputText>
+
+                <h:panelGroup class="form-group input-group date datepicker"
+                              rendered="#{MdrDataElementBean.isInputDateRendered(cc.attrs.mdrId)}" layout="block">
+                    <h:inputText id="#{MdrDataElementBean.getInputDateId(cc.attrs.mdrId, cc.attrs.inputId)}"
+                                 value="#{cc.attrs.value}"
+                                 showOn="button" size="#{cc.attrs.size}"
+                                 styleClass="form-control hasTooltip #{cc.attrs.inputStyleClass}"
+                                 title="#{MdrDataElementBean.getInputTooltipText()}" converter="#{cc.attrs.converter}"
+                                 converterMessage="#{cc.attrs.converterMessage}" required="#{cc.attrs.required}"
+                                 requiredMessage="#{cc.attrs.requiredMessage}">
+                        <f:attribute name="mdrId" value="#{cc.attrs.mdrId}"/>
+                        <f:passThroughAttribute name="data-date-format"
+                                                value="#{ValidationBean.getDateFormat(cc.attrs.mdrId)}"/>
+                        <f:passThroughAttribute name="data-mdrId" value="#{cc.attrs.mdrId}" />
+                    </h:inputText>
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                </h:panelGroup>
+
+                <h:panelGroup styleClass="form-group input-group date datetimepicker"
+                              rendered="#{MdrDataElementBean.isInputDateTimeRendered(cc.attrs.mdrId)}" layout="block">
+                    <h:inputText id="#{MdrDataElementBean.getInputDateTimeId(cc.attrs.mdrId, cc.attrs.inputId)}"
+                                 value="#{cc.attrs.value}"
+                                 showOn="button" size="#{cc.attrs.size}"
+                                 styleClass="form-control hasTooltip #{cc.attrs.inputStyleClass}"
+                                 title="#{MdrDataElementBean.getInputTooltipText()}" converter="#{cc.attrs.converter}"
+                                 converterMessage="#{cc.attrs.converterMessage}" required="#{cc.attrs.required}"
+                                 requiredMessage="#{cc.attrs.requiredMessage}">
+                        <f:validator validatorId="DateTimeValidator"/>
+                        <f:attribute name="mdrId" value="#{cc.attrs.mdrId}"/>
+                        <f:passThroughAttribute name="data-date-language" value="#{ValidationBean.getDatetimeLocale()}"/>
+                        <f:passThroughAttribute name="data-date-format"
+                                                value="#{ValidationBean.getDatetimeFormat(cc.attrs.mdrId)}"/>
+                        <f:passThroughAttribute name="data-date-useSeconds"
+                                                value="#{ValidationBean.showSeconds(cc.attrs.mdrId)}"/>
+                        <f:passThroughAttribute name="data-mdrId" value="#{cc.attrs.mdrId}" />
+                    </h:inputText>
+                    <span class="input-group-addon"><span class="fa fa-calendar"></span></span>
+                </h:panelGroup>
+
+                <h:selectOneMenu id="#{MdrDataElementBean.getInputSelectOneId(cc.attrs.mdrId, cc.attrs.inputId)}"
+                                 value="#{cc.attrs.value}" styleClass="form-control hasTooltip #{cc.attrs.inputStyleClass}"
+                                 rendered="#{MdrDataElementBean.isInputSelectOneRendered(cc.attrs.mdrId) and cc.attrs.inputType == 'SELECT_ONE_MENU'}"
+                                 title="#{MdrDataElementBean.getInputTooltipText()}" converter="#{cc.attrs.converter}"
+                                 converterMessage="#{cc.attrs.converterMessage}" required="#{cc.attrs.required}"
+                                 requiredMessage="#{cc.attrs.requiredMessage}">
+                    <f:passThroughAttribute name="data-mdrId" value="#{cc.attrs.mdrId}" />
+                    <f:selectItems value="#{MdrDataElementBean.getSelectItems(cc.attrs.mdrId)}" var="item"
+                                   itemLabel="#{item.meanings[0].designation}" itemValue="#{item.value}"/>
+                </h:selectOneMenu>
+
+                <h:selectOneRadio id="inputSelectOneRadio" value="#{cc.attrs.value}"
+                                  styleClass="form-control hasTooltip #{cc.attrs.inputStyleClass}"
+                                  rendered="#{MdrDataElementBean.isInputSelectOneRendered(cc.attrs.mdrId) and cc.attrs.inputType == 'SELECT_ONE_RADIO'}"
+                                  title="#{MdrDataElementBean.getInputTooltipText()}" converter="#{cc.attrs.converter}"
+                                  converterMessage="#{cc.attrs.converterMessage}" required="#{cc.attrs.required}"
+                                  requiredMessage="#{cc.attrs.requiredMessage}" layout="pageDirection">
+                    <f:passThroughAttribute name="data-mdrId" value="#{cc.attrs.mdrId}" />
+                    <f:selectItems value="#{MdrDataElementBean.getSelectItems(cc.attrs.mdrId, !cc.attrs.required)}"
+                                   var="item"
+                                   itemLabel="#{item.meanings[0].designation}" itemValue="#{item.value}"/>
+                </h:selectOneRadio>
+                <h:message for="inputSelectOneRadio" styleClass="#{cc.attrs.errorMessageStyleClass}"/>
+
+                <h:selectManyCheckbox id="inputSelectManyCheckbox" value="#{cc.attrs.value}"
+                                      styleClass="form-control hasTooltip #{cc.attrs.inputStyleClass}"
+                                      rendered="#{MdrDataElementBean.isInputSelectOneRendered(cc.attrs.mdrId) and cc.attrs.inputType == 'SELECT_MANY_CHECKBOX'}"
+                                      title="#{MdrDataElementBean.getInputTooltipText()}" converter="#{cc.attrs.converter}"
+                                      converterMessage="#{cc.attrs.converterMessage}" required="#{cc.attrs.required}"
+                                      requiredMessage="#{cc.attrs.requiredMessage}" layout="pageDirection">
+                    <f:passThroughAttribute name="data-mdrId" value="#{cc.attrs.mdrId}" />
+                    <f:selectItems value="#{MdrDataElementBean.getSelectItems(cc.attrs.mdrId, false)}" var="item"
+                                   itemLabel="#{item.meanings[0].designation}" itemValue="#{item.value}"/>
+                </h:selectManyCheckbox>
+                <h:message for="inputSelectManyCheckbox" styleClass="#{cc.attrs.errorMessageStyleClass}"/>
+
+                <h:panelGroup rendered="#{MdrDataElementBean.isInputBooleanRendered(cc.attrs.mdrId)}" layout="block"
+                              styleClass="checkbox">
+                    <label> <h:selectBooleanCheckbox
+                            id="#{MdrDataElementBean.getInputBooleanId(cc.attrs.mdrId, cc.attrs.inputId)}"
+                            value="#{cc.attrs.value}"
+                            styleClass="mdrCheckbox hasTooltip #{cc.attrs.inputStyleClass}"
+                            title="#{MdrDataElementBean.getInputTooltipText()}">
+                        <f:passThroughAttribute name="data-indeterminate"
+                                                value="#{empty cc.attrs.value ? 'true' : 'false'}"/>
+                        <f:passThroughAttribute name="data-mdrId" value="#{cc.attrs.mdrId}" />
+                    </h:selectBooleanCheckbox> &#xA0;
+                    </label>
+                </h:panelGroup>
+
+                <h:panelGroup rendered="#{MdrDataElementBean.isInputTimeRendered(cc.attrs.mdrId)}" layout="block"
+                              styleClass="form-group input-group date datetimepicker">
+                    <h:inputText id="#{MdrDataElementBean.getInputTimeId(cc.attrs.mdrId, cc.attrs.inputId)}"
+                                 value="#{cc.attrs.value}"
+                                 showOn="button" size="#{cc.attrs.size}"
+                                 styleClass="form-control hasTooltip #{cc.attrs.inputStyleClass}"
+                                 title="#{MdrDataElementBean.getInputTooltipText()}" converter="#{cc.attrs.converter}"
+                                 converterMessage="#{cc.attrs.converterMessage}" required="#{cc.attrs.required}"
+                                 requiredMessage="#{cc.attrs.requiredMessage}">
+                        <f:validator validatorId="TimeValidator"/>
+                        <f:attribute name="mdrId" value="#{cc.attrs.mdrId}"/>
+                        <f:passThroughAttribute name="data-date-language" value="#{ValidationBean.getDatetimeLocale()}"/>
+                        <f:passThroughAttribute name="data-date-format"
+                                                value="#{ValidationBean.getTimeFormat(cc.attrs.mdrId)}"/>
+                        <f:passThroughAttribute name="data-date-useSeconds"
+                                                value="#{ValidationBean.showSeconds(cc.attrs.mdrId)}"/>
+                        <f:passThroughAttribute name="data-date-pickDate" value="false"/>
+                        <f:passThroughAttribute name="data-mdrId" value="#{cc.attrs.mdrId}" />
+                    </h:inputText>
+                    <span class="input-group-addon"> <span class="fa fa-clock-o"></span> </span>
+                </h:panelGroup>
+
+                <h:selectOneMenu id="#{MdrDataElementBean.getInputCatalogueId(cc.attrs.mdrId, cc.attrs.inputId)}"
+                                 value="#{cc.attrs.value}"
+                                 styleClass="form-control hasTooltip select2Basic #{cc.attrs.inputStyleClass}"
+                                 rendered="#{MdrDataElementBean.isInputCatalogueRendered(cc.attrs.mdrId)}"
+                                 title="#{MdrDataElementBean.getInputTooltipText()}" converter="#{cc.attrs.converter}"
+                                 converterMessage="#{cc.attrs.converterMessage}" required="#{cc.attrs.required}"
+                                 requiredMessage="#{cc.attrs.requiredMessage}">
+                    <f:passThroughAttribute name="data-mdrId" value="#{cc.attrs.mdrId}" />
+                    <f:selectItems value="#{MdrDataElementBean.getCatalogueSelectItems(cc.attrs.mdrId)}" var="item"
+                                   itemLabel="#{item.designations[0].designation}" itemValue="#{item.code}"/>
+                </h:selectOneMenu>
+
+                <h:message for="#{renderedInputId}" styleClass="#{cc.attrs.errorMessageStyleClass}"/>
+
+                <h:outputScript name="webjars/clockpicker/0.0.7/dist/bootstrap-clockpicker.js" target="head"/>
+                <h:outputScript name="js/global.js" target="head"/>
+                <h:outputScript name="webjars/Eonasdan-bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"
+                                target="head"/>
+                <h:outputScript name="webjars/bootstrap-switch/3.3.2/js/bootstrap-switch.min.js" target="head"/>
+                <h:outputScript name="webjars/select2/4.0.5/js/select2.min.js" target="head"/>
+            </ui:fragment>
+        </ui:fragment>
+
+        <h:outputScript name="js/mdrfaces.js"/>
+
+    </cc:implementation>
+
+</ui:composition>

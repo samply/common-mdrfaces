@@ -1,0 +1,31 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:cc="http://java.sun.com/jsf/composite"
+                xmlns:mf="http://java.sun.com/jsf/composite/mdrfaces"
+                xmlns:f="http://java.sun.com/jsf/core">
+
+    <cc:interface name="fieldwithLabel">
+        <cc:attribute name="mdrId" required="true"/>
+        <cc:attribute name="styleClass" required="false" default="mdrfaces-label"/>
+    </cc:interface>
+
+    <cc:implementation>
+
+
+        <h:outputStylesheet name="webjars/bootstrap/3.3.7-1/css/bootstrap.min.css"/>
+        <h:outputStylesheet name="webjars/bootstrap-switch/3.3.2/css/bootstrap3/bootstrap-switch.min.css"
+                            target="head"/>
+        <h:outputStylesheet name="webjars/clockpicker/0.0.7/dist/bootstrap-clockpicker.min.css" target="head"/>
+        <h:outputStylesheet
+                name="webjars/Eonasdan-bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css"
+                target="head"/>
+        <h:outputStylesheet name="webjars/select2/4.0.5/css/select2.min.css" target="head"/>
+        <h:outputStylesheet name="webjars/font-awesome/4.7.0/css/font-awesome.css"/>
+        <h:outputStylesheet name="css/mdrStyles.css" target="head"/>
+
+
+        <h4>#{MdrDataElementBean.getLabelText(cc.attrs.mdrId)}</h4>
+    </cc:implementation>
+
+</ui:composition>
