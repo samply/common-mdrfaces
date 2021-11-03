@@ -1,7 +1,7 @@
 
 package de.samply.web.test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import de.samply.web.enums.EnumDateFormat;
 import de.samply.web.enums.EnumTimeFormat;
@@ -11,13 +11,12 @@ import de.samply.web.mdrfaces.validators.TimeValidator;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Test class for data type validations. 
  * 
  * @author diogo
- *
  */
 public class ValidationTest {
 
@@ -88,5 +87,4 @@ public class ValidationTest {
         pattern = DateTimeValidator.getDateTimePattern(EnumDateFormat.LOCAL_DATE_WITH_DAYS, EnumTimeFormat.LOCAL_TIME);
         assertEquals("dd.MM.yyyy HH:mm", pattern);
     }
-
 }
