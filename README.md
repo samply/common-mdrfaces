@@ -1,4 +1,3 @@
-UNMERGED BRANCH -CHANGES FROM OTHER SAMPLY TEAMS MISSING
 # Samply.Common.MDRFaces
 
 Samply.Common.MDRFaces is a Java Server Faces library which eases the user
