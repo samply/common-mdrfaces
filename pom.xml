@@ -72,7 +72,7 @@
         <clockpicker.version>0.0.7</clockpicker.version>
         <bootstrap.version>3.3.7-1</bootstrap.version>
         <Eonasdan-bootstrap-datetimepicker.version>4.17.47</Eonasdan-bootstrap-datetimepicker.version>
-        <select2.version>4.0.5</select2.version>
+        <select2.version>4.0.13</select2.version>
         <font-awesome.version>4.7.0</font-awesome.version>
         <javax.servlet-api.version>3.1.0</javax.servlet-api.version>
         <javax.el-api.version>3.0.0</javax.el-api.version>
