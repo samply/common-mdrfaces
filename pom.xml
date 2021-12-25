@@ -64,7 +64,7 @@
 
         <!-- Jersey 2.x is incompatible with 1.19.4 -->
         <jersey.version>1.19.4</jersey.version>
-        <slf4j-api.version>1.7.22</slf4j-api.version>
+        <slf4j-api.version>1.7.32</slf4j-api.version>
         <oro.version>2.0.8</oro.version>
 
         <!-- Webjar dependencies -->
