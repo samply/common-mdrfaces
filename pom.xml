@@ -59,7 +59,7 @@
     </distributionManagement>
 
     <properties>
-        <mdrclient.version>3.0.0</mdrclient.version>
+        <mdrclient.version>3.1.0</mdrclient.version>
         <samply.version.webjar>3.0.0</samply.version.webjar>
 
         <!-- Jersey 2.x is incompatible with 1.19.4 -->
